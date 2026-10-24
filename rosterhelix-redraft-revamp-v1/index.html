@@ -1,0 +1,293 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RosterHelix | Fantasy Football Research</title><style>
+:root{font:15px/1.5 Inter,system-ui,sans-serif;color:#e9f3fb;background:#09111f}*{box-sizing:border-box}body{margin:0}header{border-bottom:1px solid #243348;background:#101b2b}header .wrap{max-width:1180px;margin:auto;padding:17px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px}a{color:#50d6bd;text-decoration:none}h1{font-size:20px;letter-spacing:-.6px;margin:0}h1 span{color:#45d6ba}main{max-width:1180px;margin:auto;padding:28px 22px}h2{font-size:30px;letter-spacing:-1px;margin:0 0 5px}h3{font-size:17px;margin:0 0 12px}.muted{color:#9db0c5}.small{font-size:12px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0}.tab,button,.linkbtn{border:1px solid #31445d;border-radius:9px;background:#16253a;color:#e9f3fb;padding:10px 15px;font-weight:650;cursor:pointer}.tab.active,.primary{background:#2bd4b5;color:#08221e;border-color:#2bd4b5}.card{border:1px solid #26384f;border-radius:13px;background:#101d30;padding:20px;margin:12px 0}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.stat{background:#17283e;border-radius:10px;padding:13px}.stat b{display:block;font-size:23px}.stat span{color:#a5b8ce;font-size:12px}.filters{display:flex;gap:12px;flex-wrap:wrap;align-items:end}.filters label{flex:1;min-width:140px;font-size:12px;color:#afc1d5}input,select{display:block;width:100%;margin-top:5px;background:#0b1728;border:1px solid #344861;border-radius:8px;color:#e9f3fb;padding:10px;font:inherit}input[type=file]{max-width:100%}.tablewrap{overflow:auto;max-height:590px}table{width:100%;border-collapse:collapse;white-space:nowrap;font-size:13px}td,th{padding:11px 10px;border-bottom:1px solid #25374b;text-align:left}th{color:#a8bad0;position:sticky;top:0;background:#101d30}td.num{text-align:right;font-variant-numeric:tabular-nums}.hidden{display:none}.hint{border-left:3px solid #2bd4b5;padding:10px 13px;background:#152b3a;color:#b6c9d9}.status{min-height:22px;margin-top:12px}.linkbtn{display:inline-block}.split{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}.tab:focus-visible,button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #58e6d0;outline-offset:2px}.toolbar{position:sticky;top:0;z-index:4;background:#09111f;padding:8px 0;margin:12px 0}.tab{flex:1;min-width:100px}.stat b{font-variant-numeric:tabular-nums}@media(max-width:700px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}h2{font-size:24px}main{padding:18px 12px}.card{padding:14px}header .wrap{padding:14px}}
+
+:root{font-family:Inter,ui-sans-serif,system-ui,sans-serif;background:#080e19;color:#eef3fc}
+body{background:radial-gradient(circle at 90% -10%,#1c3451 0,transparent 32%),#080e19}
+header{background:#0c1422;border-bottom:1px solid #223047}
+header .wrap{max-width:1440px;padding:16px 32px}
+main{max-width:1440px;padding:38px 32px}
+h2{font-size:clamp(28px,3vw,42px);font-weight:800;letter-spacing:-1.7px}
+h3{font-size:19px}
+.workspace{display:grid;grid-template-columns:220px minmax(0,1fr);gap:24px;margin-top:24px;align-items:start}
+.toolbar{position:sticky;top:18px;display:flex;flex-direction:column;align-items:stretch;gap:7px;padding:12px;background:#101a2b;border:1px solid #26364d;border-radius:16px;margin:0}
+.toolbar:before{content:"WORKSPACE";color:#758ba5;font-size:10px;font-weight:800;letter-spacing:1.7px;padding:9px 12px 4px}
+.tab{width:100%;flex:none;text-align:left;background:transparent;border:1px solid transparent;color:#aebfd5;font-size:14px;padding:13px 14px;border-radius:10px}
+.tab.active{background:#193e42;color:#76f2d9;border:1px solid #2b7774}
+.tab:hover:not(.active){background:#1b2b40;color:#fff}
+.workarea{min-width:0}
+.card{background:#101a2b;border:1px solid #25364d;border-radius:17px;margin:0 0 16px;padding:26px;box-shadow:0 12px 35px #0002}
+.stat{background:#111f33;border:1px solid #24374f;border-radius:13px;padding:18px}
+.stat b{font-size:26px;letter-spacing:-1px}
+.grid{gap:12px}
+.filters{gap:13px}
+input,select{background:#0c1625;border:1px solid #34445b;padding:12px;border-radius:10px}
+button,.linkbtn{transition:background .15s,border-color .15s}
+.primary{background:#3ce2c1;border-color:#3ce2c1;font-weight:800}
+.tablewrap{border:1px solid #26374c;border-radius:12px;margin-top:12px}
+th{background:#162238}
+td,th{padding:13px}
+.status{padding:8px 0}
+@media(max-width:850px){.workspace{grid-template-columns:1fr;gap:12px}.toolbar{position:static;flex-direction:row;overflow:auto;padding:8px}.toolbar:before{display:none}.tab{min-width:max-content;width:auto;padding:10px 12px}.card{padding:18px}main{padding:22px 14px}header .wrap{padding:14px}}
+@media(max-width:520px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.filters label{min-width:100%}.filters button{width:100%}h2{font-size:30px}.stat{padding:12px}.stat b{font-size:22px}}
+
+/* V19 visual system — independent of NFL team branding */
+:root{--navy:#09294c;--navy2:#061e37;--blue:#1479d5;--sky:#e9f4ff;--gold:#ffc629;--gold2:#ffdf77;--page:#f2f6fc;--panel:#ffffff;--ink:#102543;--sub:#5c6f8a;--stroke:#dce6f3;--field:#fff;--button:#eff5fd;--button-ink:#12365e;color-scheme:light}
+body{background:var(--page)!important;color:var(--ink)!important;font-family:Inter,ui-sans-serif,system-ui,Arial,sans-serif}
+header{background:var(--navy)!important;border:0!important;box-shadow:0 4px 22px #06244924}
+header .wrap{max-width:1600px!important;padding:20px 30px!important}
+h1{color:#fff!important;font-size:24px!important;font-weight:900;letter-spacing:-1px}h1 span:first-child{color:var(--gold)!important}h1 .muted{color:#b9d4f3!important;letter-spacing:2px}
+main{max-width:1600px!important;padding:32px 30px!important}
+h2{color:var(--ink);font-size:clamp(28px,3vw,42px)!important}h3{color:var(--ink)}.muted,.small.muted{color:var(--sub)!important}
+a{color:var(--blue)}.linkbtn{background:#173d66!important;border-color:#416b98!important;color:#fff!important}
+.workspace{grid-template-columns:234px minmax(0,1fr)!important;gap:20px!important;align-items:start}
+.toolbar{background:var(--navy)!important;border:0!important;box-shadow:0 8px 30px #112b4b20;border-radius:17px!important;padding:15px 11px!important;top:16px!important}
+.toolbar:before{color:#9dbbdc!important;content:'YOUR WORKSPACE'!important}
+.tab{background:transparent!important;border:0!important;color:#d4e5fa!important;border-radius:10px!important;font-size:14px!important;font-weight:650!important}
+.tab.active{background:var(--gold)!important;color:#0b2946!important;box-shadow:0 2px 8px #0002}
+.tab:hover:not(.active){background:#18446f!important;color:#fff!important}
+.card{background:var(--panel)!important;border:1px solid var(--stroke)!important;border-radius:16px!important;box-shadow:0 6px 25px #123c6810!important;padding:24px!important}
+.stat{background:var(--panel)!important;border:1px solid var(--stroke)!important;border-radius:14px!important;padding:19px!important;box-shadow:0 3px 14px #1034580a}
+.stat b{color:var(--ink)!important;font-size:27px!important}.stat span{color:var(--sub)!important}
+input,select{background:var(--field)!important;color:var(--ink)!important;border:1px solid #cbd9e9!important;border-radius:9px!important;padding:11px!important}
+.filters label{color:var(--sub)!important;font-weight:650}
+button,.linkbtn{background:var(--button);color:var(--button-ink);border-color:var(--stroke)}
+button.primary{background:var(--gold)!important;border-color:var(--gold)!important;color:#0b2746!important;font-weight:850}
+button:hover{filter:brightness(.96)}.tab:focus-visible,button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--blue)!important;outline-offset:2px}
+.tablewrap{border:1px solid var(--stroke)!important;border-radius:11px!important}th{background:#eaf2fc!important;color:#23456c!important}td{border-bottom:1px solid var(--stroke)!important;color:var(--ink)}tr:nth-child(even) td{background:#f8fbff}
+.hint{background:var(--sky)!important;border-color:var(--blue)!important;color:var(--ink)!important}
+.hero-panel{background:linear-gradient(110deg,var(--panel) 58%,var(--sky) 100%);border:1px solid var(--stroke);padding:30px;border-radius:18px;box-shadow:0 5px 22px #14365c12}
+.eyebrow{font-size:11px;letter-spacing:2px;color:var(--blue);font-weight:900}
+.hero-panel h2{margin:9px 0 6px}.hero-panel h2 em{font-style:normal;color:var(--blue)}
+.section-kicker{font-size:11px;font-weight:800;letter-spacing:1.2px;color:var(--blue);margin-bottom:10px}
+.quick-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.quick-action{display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;min-height:85px;background:var(--sky)!important;border:1px solid var(--stroke);border-radius:12px;padding:16px;color:var(--ink)!important}
+.quick-action:nth-child(even){background:#fff9e8!important}.quick-action strong{display:block}.quick-action small{display:block;color:var(--sub);margin-top:3px;font-weight:400}
+.dashboard-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(260px,1fr);gap:18px;margin-top:20px}
+.theme-picker{display:flex;align-items:center;gap:8px;color:#c6ddf7;font-size:12px;font-weight:750}.theme-picker select{width:auto;margin:0!important;background:#123b67!important;color:white!important;border-color:#4775a4!important;padding:9px!important}
+[data-theme='gold']{--navy:#121212;--navy2:#090909;--blue:#aa7817;--sky:#fff5df;--gold:#dcb653;--gold2:#f5dc8b;--page:#f7f7f5;--panel:#fff;--ink:#171717;--sub:#676767;--stroke:#e7e2d7;--field:#fff;--button:#f4f1e9;--button-ink:#24201a}
+[data-theme='gold'] header,[data-theme='gold'] .toolbar{background:#151515!important}
+[data-theme='gold'] .tab:hover:not(.active){background:#343434!important}
+[data-theme='gold'] th{background:#f6f1e6!important;color:#4d3d24!important}
+[data-theme='gold'] tr:nth-child(even) td{background:#fbfaf7}
+[data-theme='gold'] .hero-panel{background:linear-gradient(110deg,#fff 58%,#fff5df 100%)}
+[data-theme='gold'] .theme-picker select{background:#2c2c2c!important;border-color:#777!important}
+@media(max-width:950px){.workspace{grid-template-columns:1fr!important}.toolbar{position:static!important;flex-direction:row!important;overflow-x:auto!important}.toolbar:before{display:none!important}.tab{min-width:max-content!important;width:auto!important}.dashboard-grid{grid-template-columns:1fr}}
+@media(max-width:600px){header .wrap{padding:15px!important;flex-wrap:wrap}main{padding:20px 12px!important}.card{padding:16px!important}.quick-grid{grid-template-columns:1fr}.hero-panel{padding:20px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.stat b{font-size:23px!important}}
+</style><style>/* RosterHelix motion layer */
+@keyframes rhEnter{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}@keyframes rhGlow{50%{box-shadow:0 10px 34px #2672b32e}}.card,.hero-panel{animation:rhEnter .5s ease both}.card:hover{box-shadow:0 12px 32px #22538c20!important;transition:box-shadow .22s,transform .22s}.quick-action:hover{transform:translateY(-3px);transition:transform .2s}.hero-panel{animation:rhEnter .6s ease both,rhGlow 7s ease-in-out infinite}@media(prefers-reduced-motion:reduce){.card,.hero-panel{animation:none!important}.quick-action:hover{transform:none}}
+
+/* RosterHelix refreshed motion and interaction system */
+:root{scroll-behavior:smooth}
+body{background-image:radial-gradient(ellipse at 85% 8%,rgba(42,150,240,.10),transparent 35%),radial-gradient(ellipse at 8% 68%,rgba(245,188,51,.07),transparent 34%)}
+.card,.hero-panel,.stat,.quick-action{transition:transform .24s ease,box-shadow .24s ease,border-color .24s ease}
+.card:hover,.stat:hover{transform:translateY(-2px);box-shadow:0 13px 34px #123c6820!important}
+.quick-action:hover{transform:translateY(-4px);box-shadow:0 10px 24px #123c6820!important}
+button.primary:hover{transform:translateY(-1px);box-shadow:0 5px 18px #efba3766}
+.hero-panel{position:relative;overflow:hidden;isolation:isolate}
+.hero-panel:after{content:'';position:absolute;z-index:-1;width:230px;height:230px;right:-70px;top:-95px;border:30px solid rgba(47,131,218,.09);border-radius:50%;animation:floatHelix 9s ease-in-out infinite alternate}
+@keyframes floatHelix{from{transform:translate(0,0) rotate(0)}to{transform:translate(-25px,28px) rotate(24deg)}}
+.view:not(.hidden){animation:appearHelix .28s ease both}
+@keyframes appearHelix{from{opacity:.6;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+.decision-switch{display:flex;flex-wrap:wrap;gap:9px;margin:0 0 18px;padding:7px;background:var(--sky);border:1px solid var(--stroke);border-radius:14px}
+.decision-switch button{flex:1;min-width:130px;padding:12px 16px;border-radius:10px;font-weight:800;background:transparent;color:var(--ink)}
+.decision-switch button.active{background:var(--navy)!important;color:#fff!important;box-shadow:0 4px 13px #0c294333}
+.decision-note{background:var(--sky);padding:15px 17px;border-left:4px solid var(--blue);border-radius:10px;margin-bottom:16px;color:var(--ink);line-height:1.55}
+#advanced>.card{margin-bottom:16px}
+#sitResult,#tradeResult{line-height:1.7;padding:16px;border-radius:11px;background:var(--sky);border:1px solid var(--stroke);min-height:48px}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style></head><body><header><div class="wrap"><h1>ROSTER<span>HELIX</span></h1><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><label class="theme-picker">Theme <select id="themeSelect" aria-label="Color theme"><option value="blue">Blue / White / Yellow</option><option value="gold">Gold / Black / White</option></select></label><a class="linkbtn" href="/account.html">My Account & Roster ↗</a><button class="linkbtn" type="button" data-go="advanced">Trade & Start/Sit ↗</button></div></div><a href="/decisions.html" style="color:#ffd35b;font-weight:800;padding:8px 16px">✦ Decision Studio ↗</a></header><main><div class="split"><div><div class="small" style="color:#48d8bb;font-weight:800">ROSTERHELIX · V32</div><h2>Make the right fantasy call.</h2><div class="muted">One workspace for player research, matchup history and model performance.</div></div><span id="connection" class="small muted">Checking local API…</span></div>
+<div class="grid" style="margin-top:22px"><div class="stat"><span>Player-games</span><b id="count">—</b></div><div class="stat"><span>Players</span><b id="players">—</b></div><div class="stat"><span>Seasons</span><b id="seasons">—</b></div><div class="stat"><span>Opponents</span><b id="opponents">—</b></div></div>
+<div class="workspace"><nav class="toolbar" aria-label="Data center sections" role="tablist"><button class="tab active" data-tab="dashboard" role="tab" aria-selected="true">Dashboard</button><button class="tab" data-tab="player" role="tab" aria-selected="false">Player Explorer</button><button class="tab" data-tab="matchup" role="tab" aria-selected="false">Defense Matchups</button><button class="tab" data-tab="validation" role="tab" aria-selected="false">Model Lab</button><button class="tab" data-tab="import" role="tab" aria-selected="false">Data Manager</button><button class="tab" data-tab="advanced" role="tab" aria-selected="false">Decision Studio</button></nav>
+<div class="workarea"><section id="advanced" class="view hidden" role="tabpanel" aria-label="Trade and Start Sit tools">
+<div class="decision-note"><strong>Decision Center</strong> · Compare players and trades with the available verified game logs. Historical comparisons are not injury-aware or rest-of-season forecasts. Missing inputs are called out instead of guessed.</div><div class="decision-switch" role="group" aria-label="Choose decision tool"><button type="button" class="active" data-decision="sit">Start / Sit</button><button type="button" data-decision="projection">Matchup estimates</button><button type="button" data-decision="trade">Trade comparison</button></div><div class="card"><div class="section-kicker">PLAYER COMPARISON · HISTORICAL</div><h3>Trade Analyzer & Start/Sit Coach</h3>
+<p class="muted small">Evidence: actual imported game averages and sample size. Current injuries, expected snaps, team totals and lineup replacement value are not available in this comparison.</p>
+<div class="filters"><label>Season<select id="compareSeason"></select></label><label>Recent games<select id="compareWindow"><option value="3">Last 3</option><option value="5" selected>Last 5</option><option value="8">Last 8</option><option value="18">Full season</option></select></label><button class="primary" id="loadCompare">Load players</button></div>
+<div class="status muted" id="compareStatus">Import historical NFL statistics to begin.</div>
+<div class="filters"><label>Player A<input id="compareA" list="comparePlayers" placeholder="Choose a player"></label><label>Player B<input id="compareB" list="comparePlayers" placeholder="Choose a player"></label><button class="primary" id="runSit">Compare Start/Sit</button></div>
+<datalist id="comparePlayers"></datalist><div class="status" id="sitResult" aria-live="polite"></div>
+</div>
+<div class="card"><div class="section-kicker">EXPERIMENTAL · V22</div><h3>Matchup-adjusted estimates</h3><p class="small muted">Uses only games before the selected week. Small-sample opponent adjustments are capped at ±15%. Not an injury-aware or validated future forecast.</p>
+<div class="filters"><label>Target week<select id="decisionWeek"></select></label><label>Opponent (optional)<input id="decisionOpponent" maxlength="4" placeholder="e.g. BUF"></label><button class="primary" id="runDecision">Calculate estimates</button></div>
+<div class="status muted" id="decisionStatus" aria-live="polite">Select a season in the tool above, then choose a target week.</div>
+<div class="tablewrap"><table><thead><tr><th>Player</th><th>Position</th><th>Estimate</th><th>Recent PPG</th><th>Targets / Carries</th><th>Sample</th></tr></thead><tbody id="decisionRows"></tbody></table></div>
+</div>
+<div class="card"><h3>Trade comparison</h3><p class="muted small">Enter up to three players per side, separated by commas. The result compares combined recent PPR points per game, not trade fairness or rest-of-season value.</p>
+<div class="filters"><label>Side A<input id="tradeA" placeholder="Player One, Player Two"></label><label>Side B<input id="tradeB" placeholder="Player Three"></label><button class="primary" id="runTrade">Compare sides</button></div>
+<div class="status" id="tradeResult" aria-live="polite"></div>
+<p class="small muted">For experimental forecasting and advanced tools, <a href="./analytics.html">open the legacy analytics page ↗</a>.</p></div></section><section id="dashboard" class="view" role="tabpanel"><div class="hero-panel"><div class="eyebrow">WELCOME TO ROSTERHELIX</div><h2>Smarter data.<br><em>Stronger decisions.</em></h2><p class="muted">Explore real player statistics, research defensive matchups, and test model accuracy. No invented rankings or placeholder projections.</p></div><div class="dashboard-grid"><div class="card"><div class="section-kicker">QUICK TOOLS</div><div class="quick-grid"><button class="quick-action" data-go="player"><span><strong>Player Explorer</strong><small>Find weekly game logs and player statistics</small></span><span>→</span></button><button class="quick-action" data-go="matchup"><span><strong>Defense Matchups</strong><small>Analyze historical points allowed</small></span><span>→</span></button><button class="quick-action" data-go="validation"><span><strong>Model Lab</strong><small>Compare prediction accuracy</small></span><span>→</span></button><button class="quick-action" data-go="import"><span><strong>Data Manager</strong><small>Sync, upload, and audit NFL statistics</small></span><span>→</span></button></div></div><div class="card"><div class="section-kicker">DATA READINESS</div><h3 id="readinessTitle">Checking your dataset…</h3><p class="muted" id="readinessText">Connecting to your local RosterHelix server.</p><button class="primary" data-go="import">Manage data →</button><p class="small muted" style="margin-top:18px">Numbers above reflect your imported data, not mock statistics. Projections require enough verified historical games.</p></div></div><div class="card"><div class="section-kicker">ADVANCED FANTASY TOOLS</div><h3>Trade analysis, lineup decisions, and player trends</h3><p class="muted">Open the advanced workspace for roster-aware trades, Start/Sit, rest-of-season analysis and projections.</p><button class="primary" onclick="location.href='/decisions.html'">Open Decision Studio →</button></div></section><section id="player" class="view hidden" role="tabpanel"><div class="card"><div class="filters"><label>Player name or ID<input id="search" placeholder="e.g. Justin Jefferson"></label><label>Season<select id="season"><option value="">All seasons</option></select></label><label>Position<select id="position"><option value="">All positions</option><option>QB</option><option>RB</option><option>WR</option><option>TE</option></select></label><label>Opponent<input id="opponent" placeholder="e.g. NYJ"></label><button class="primary" id="find">Search</button></div><div class="status muted" id="playerStatus"></div><div class="tablewrap"><table><thead><tr><th>Player</th><th>Team</th><th>Pos</th><th>Season</th><th>Week</th><th>Opponent</th><th>PPR</th><th>Targets</th><th>Carries</th><th>Receptions</th></tr></thead><tbody id="playerRows"></tbody></table></div></div></section>
+<section id="matchup" class="view hidden" role="tabpanel"><div class="card"><h3>Defensive matchups</h3><p class="muted small">Fantasy points allowed are summed across imported offensive player-games for each defense, week, and position. They are not normalized for bye weeks or missing player records.</p><div class="filters"><label>Season<select id="mseason"><option value="">All seasons</option></select></label><label>Defense<input id="defense" placeholder="e.g. BUF"></label><label>Position<select id="mposition"><option value="">All positions</option><option>QB</option><option>RB</option><option>WR</option><option>TE</option></select></label><button class="primary" id="match">Find matchups</button></div><div class="status muted" id="matchStatus"></div><div class="tablewrap"><table><thead><tr><th>Season</th><th>Week</th><th>Defense</th><th>Position</th><th>Fantasy pts allowed</th><th>Players</th><th>Targets</th><th>Carries</th></tr></thead><tbody id="matchRows"></tbody></table></div></div></section>
+<section id="validation" class="view hidden" role="tabpanel"><div class="card"><h3>Historical prediction accuracy</h3><p class="muted small">Walk-forward comparison on the same recorded player-games. Positive MAE improvement means opponent adjustments helped. Import at least several weeks of history first.</p><div class="filters"><label>Scoring<select id="validationScoring"><option value="ppr">PPR</option><option value="half">Half PPR</option><option value="standard">Standard</option></select></label><button class="primary" id="runValidation">Compare models</button></div><div class="status muted" id="validationStatus"></div><div class="grid" style="margin-top:12px"><div class="stat"><span>Player-games evaluated</span><b id="evalCount">—</b></div><div class="stat"><span>Baseline MAE</span><b id="baseMAE">—</b></div><div class="stat"><span>Matchup MAE</span><b id="matchMAE">—</b></div><div class="stat"><span>MAE improvement</span><b id="improveMAE">—</b></div></div><div class="tablewrap"><table><thead><tr><th>Position</th><th>Evaluated</th><th>Baseline MAE</th><th>Matchup MAE</th></tr></thead><tbody id="validationRows"></tbody></table></div><p class="small muted">These are historical tests, not guaranteed future accuracy. Dataset provenance and completeness must be verified separately.</p></div><div class="card"><div class="section-kicker">V25–V27 · VALIDATION SUITE</div><h3>Held-out Model Validation</h3><p class="small muted">Select a strategy using earlier seasons, then evaluate it on later, untouched seasons. See per-position errors and export the full report. No automatic model deployment.</p><div class="filters"><label>Train through<select id="holdTrain"></select></label><label>Test from<select id="holdStart"></select></label><label>Test through<select id="holdEnd"></select></label><label>Recent window<select id="holdWindow"><option value="3">3 games</option><option value="5" selected>5 games</option><option value="8">8 games</option></select></label><button class="primary" id="runHeldout">Run held-out test</button><button id="exportHeldout" disabled>Export JSON</button></div><p class="status muted" id="heldoutStatus" aria-live="polite">Import at least two seasons to run held-out validation.</p><div class="grid"><div class="stat"><span>Selected strategy</span><b id="heldoutChoice" style="font-size:16px">—</b></div><div class="stat"><span>Held-out games</span><b id="heldoutCount">—</b></div><div class="stat"><span>Held-out MAE</span><b id="heldoutMAE">—</b></div><div class="stat"><span>Vs baseline MAE</span><b id="heldoutGain">—</b></div></div><h4>Performance by position</h4><div class="tablewrap"><table><thead><tr><th>Position</th><th>Games</th><th>Selected MAE</th><th>Baseline MAE</th><th>Improvement</th></tr></thead><tbody id="heldoutPositions"></tbody></table></div><p class="small muted">Positive improvement means lower error than the season-average baseline. Small samples and missing data limit reliability.</p></div><div class="card"><div class="section-kicker">V27 · MODEL RESEARCH</div><h3>Model Optimization Lab</h3><p class="small muted">Compare six historical estimation strategies on identical player-games. Lower MAE is better. The best result is exploratory and is not automatically used for future projections.</p><div class="filters"><label>Season<select id="optSeason"><option value="">All imported seasons</option></select></label><label>Recent window<select id="optWindow"><option value="3">3 games</option><option value="5" selected>5 games</option><option value="8">8 games</option></select></label><label>Minimum history<select id="optPrior"><option value="2">2 games</option><option value="3" selected>3 games</option><option value="5">5 games</option></select></label><button class="primary" id="runOptimization">Compare strategies</button></div><p class="status muted" id="optStatus" aria-live="polite">Import historical data before running optimization.</p><div class="tablewrap"><table><thead><tr><th>Strategy</th><th>Recent weight</th><th>Matchup weight</th><th>Samples</th><th>MAE</th><th>RMSE</th></tr></thead><tbody id="optRows"></tbody></table></div><p class="small muted">Do not treat the lowest MAE as a validated winning model. A later milestone should use held-out seasons for final selection.</p></div><div class="card"><div class="section-kicker">V23 · WALK-FORWARD EVALUATION</div><h3>Decision Engine Backtest</h3><p class="muted small">Compare V22 matchup-adjusted PPR estimates with the same model without opponent adjustment. Every evaluated player-game is predicted from earlier weeks only. Lower MAE is better.</p><div class="filters"><label>Season<select id="backtestSeason"><option value="">All imported seasons</option></select></label><label>Recent games<select id="backtestWindow"><option value="3">3</option><option value="5" selected>5</option><option value="8">8</option></select></label><label>Minimum earlier games<select id="backtestPrior"><option value="2">2</option><option value="3" selected>3</option><option value="5">5</option></select></label><button class="primary" id="runDecisionBacktest">Run backtest</button></div><p class="status muted" id="backtestStatus" aria-live="polite">Import historical player games, then run the backtest.</p><div class="grid"><div class="stat"><span>Evaluated games</span><b id="btCount">—</b></div><div class="stat"><span>Baseline MAE</span><b id="btBaseline">—</b></div><div class="stat"><span>Decision Engine MAE</span><b id="btModel">—</b></div><div class="stat"><span>MAE improvement</span><b id="btGain">—</b></div></div><div class="tablewrap"><table><thead><tr><th>Position</th><th>Games</th><th>Baseline MAE</th><th>Decision MAE</th></tr></thead><tbody id="backtestRows"></tbody></table></div><p class="small muted">A negative improvement means the matchup adjustment made predictions worse. Retrospective results do not guarantee future performance.</p></div></section>
+<section id="import" class="view hidden" role="tabpanel"><div class="card"><h3>Data quality report</h3><p class="muted small">Check historical season coverage and missing opponent assignments before using the data for predictions.</p><button id="auditData">Audit imported data</button><div class="status" id="auditStatus"></div><div class="tablewrap"><table><thead><tr><th>Season</th><th>Player-games</th><th>Players</th><th>Weeks</th><th>Missing opponents</th></tr></thead><tbody id="auditRows"></tbody></table></div></div><div class="card"><h3>Check data connection</h3><p class="muted small">Diagnose NFLverse DNS and download access before starting a multi-season sync. This check does not change your database.</p><div class="filters"><label>Test season<input id="diagnosticSeason" type="number" value="2024" min="1999" max="2026"></label><button id="runDiagnostics">Check connection</button></div><div class="status" id="diagnosticStatus" role="status"></div></div><div class="card"><h3>Download historical seasons</h3><p class="muted small">Download NFLverse weekly player statistics directly to your local database. This requires an internet connection and may take several minutes. A failed season leaves your existing database unchanged.</p><div class="filters"><label>From season<input id="syncStart" type="number" min="1999" max="2027" value="2020"></label><label>Through season<input id="syncEnd" type="number" min="1999" max="2027" value="2025"></label><button class="primary" id="syncHistory">Download seasons</button></div><div class="status" id="syncStatus"></div><p class="small muted">If sync fails, try downloading one season first (for example 2024–2024). You can also <a href="https://github.com/nflverse/nflverse-data/releases/tag/stats_player" target="_blank" rel="noopener">download the NFLverse weekly CSV manually</a> and upload it below using NFLverse format.</p></div><div class="card"><h3>Upload a statistics CSV</h3><p class="muted">Upload a CSV from a trusted source. Imports are merged by season, week, and player ID; reimporting the same game replaces it instead of duplicating it.</p><div class="filters"><label>File format<select id="format"><option value="canonical">RosterHelix / normalized CSV</option><option value="nflverse">NFLverse stats_player weekly CSV</option></select></label><label>Season for NFLverse file<input type="number" id="importSeason" value="2025" min="1999" max="2027"></label><label>CSV file<input type="file" accept=".csv,text/csv" id="file"></label><button class="primary" id="upload">Import CSV</button></div><div class="status" id="uploadStatus"></div><p class="hint small">The upload is processed by your local Python server. The file is not sent to ChatGPT. Source authenticity is not automatically verified; only upload datasets you trust. A successful import also updates the current-season analytics dataset.</p><p class="small muted">Normalized columns: player_id, player_name, position, recent_team, opponent_team, season, week, fantasy_points_ppr, receptions, receiving_targets, rushing_attempts. Additional stats are supported.</p><button id="template">Download CSV template</button></div></section>
+</div></div><div class="small muted" style="margin:24px 0">Historical observations are not predictions. For forecasts, trade tools, and model evaluation, open <a href="./analytics.html">Advanced analysis</a>. Run <code>python server.py</code> locally to activate imports and searches. Player names come from the imported data; they are not independently verified.</div></main>
+<script>
+const $=id=>document.getElementById(id),escapeHTML=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+async function api(url,options){if(options && options.method && options.method.toUpperCase()!=='GET'){const a=await fetch('/api/auth/me').then(x=>x.json());options.headers={...(options.headers||{}),'X-CSRF-Token':a.csrf||''};if(url.startsWith('/api/history/')){const key=sessionStorage.getItem('rh_admin_key')||prompt('Administrator import key (set in Render ADMIN_API_KEY):');if(key){sessionStorage.setItem('rh_admin_key',key);options.headers['X-Admin-Key']=key;}}}const r=await fetch(url,options),d=await r.json();if(!r.ok)throw Error([d.error,d.detail].filter(Boolean).join(' — ')||'Request failed');return d}
+function activateTab(b){if(!b)return;document.querySelectorAll('[data-tab]').forEach(x=>{x.classList.toggle('active',x===b);x.setAttribute('aria-selected',String(x===b))});document.querySelectorAll('.view').forEach(x=>x.classList.toggle('hidden',x.id!==b.dataset.tab))};document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>activateTab(b));document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>activateTab(document.querySelector('[data-tab="'+b.dataset.go+'"]')));
+async function summary(){try{const d=await api('/api/history/summary');$('connection').textContent='Local data API connected';$('readinessTitle').textContent=d.rows?'Historical data loaded':'Import data to get started';$('readinessText').textContent=d.rows?`${d.rows.toLocaleString()} player-games across ${d.seasons.length} seasons. Open Data Manager to audit completeness.`:'Your local database has no historical player-games yet. Open Data Manager to import an NFLverse CSV or try syncing one season.';$('count').textContent=d.rows.toLocaleString();$('players').textContent=d.players.toLocaleString();$('seasons').textContent=d.seasons.length;$('opponents').textContent=d.opponents.length;$('compareSeason').innerHTML=d.seasons.slice().reverse().map(y=>`<option>${y}</option>`).join('');$('backtestSeason').innerHTML='<option value="">All imported seasons</option>'+d.seasons.slice().reverse().map(y=>`<option>${y}</option>`).join('');$('optSeason').innerHTML=$('backtestSeason').innerHTML;for(const id of ['season','mseason']){$(id).innerHTML='<option value="">All seasons</option>'+d.seasons.slice().reverse().map(y=>`<option>${y}</option>`).join('')}if(!d.rows)$('playerStatus').textContent='No history imported yet. Select Import data to begin.';else await playerSearch()}catch(e){$('connection').textContent='Start python server.py to enable data';$('readinessTitle').textContent='Server offline';$('readinessText').textContent='Run py server.py in the website folder, then refresh this page.';$('playerStatus').textContent=e.message}}
+async function playerSearch(){const q=new URLSearchParams({player:$('search').value,season:$('season').value,position:$('position').value,opponent:$('opponent').value,limit:'500'});try{const d=await api('/api/history?'+q);$('playerStatus').textContent=`${d.rows.length} matching player-games (maximum 500 shown)`;$('playerRows').innerHTML=d.rows.map(r=>`<tr><td>${escapeHTML(r.player_name)}</td><td>${escapeHTML(r.recent_team)}</td><td>${escapeHTML(r.position)}</td><td>${escapeHTML(r.season)}</td><td>${escapeHTML(r.week)}</td><td>${escapeHTML(r.opponent_team||'—')}</td><td class="num">${Number(r.fantasy_points_ppr).toFixed(1)}</td><td class="num">${escapeHTML(r.receiving_targets??'—')}</td><td class="num">${escapeHTML(r.rushing_attempts??'—')}</td><td class="num">${escapeHTML(r.receptions??'—')}</td></tr>`).join('')}catch(e){$('playerStatus').textContent=e.message}}
+async function matchupSearch(){const q=new URLSearchParams({season:$('mseason').value,opponent:$('defense').value,position:$('mposition').value});try{const d=await api('/api/history/matchups?'+q);$('matchStatus').textContent=`${d.matchups.length} defense-position weeks (maximum 500 shown)`;$('matchRows').innerHTML=d.matchups.map(r=>`<tr><td>${r.season}</td><td>${r.week}</td><td>${escapeHTML(r.defense)}</td><td>${escapeHTML(r.position)}</td><td>${r.points_allowed.toFixed(1)}</td><td>${r.player_games}</td><td>${r.targets_allowed}</td><td>${r.carries_allowed}</td></tr>`).join('')}catch(e){$('matchStatus').textContent=e.message}}
+$('find').onclick=playerSearch;['season','position'].forEach(id=>$(id).onchange=playerSearch);let searchTimer;$('search').oninput=()=>{clearTimeout(searchTimer);searchTimer=setTimeout(playerSearch,300)};$('match').onclick=matchupSearch;$('search').onkeydown=e=>{if(e.key==='Enter')playerSearch()};$('upload').onclick=async()=>{const f=$('file').files[0];if(!f){$('uploadStatus').textContent='Choose a CSV file first.';return}if(f.size>35e6){$('uploadStatus').textContent='File too large (35 MB max).';return}const q=new URLSearchParams({format:$('format').value,season:$('importSeason').value});$('uploadStatus').textContent='Importing…';try{const d=await api('/api/history/import?'+q,{method:'POST',headers:{'Content-Type':'text/csv'},body:f});$('uploadStatus').textContent=`Imported ${d.imported_rows} rows. Historical database now contains ${d.metadata.history_rows} player-games.`;await summary()}catch(e){$('uploadStatus').textContent='Import failed: '+e.message}};
+$('auditData').onclick=async()=>{const b=$('auditData');b.disabled=true;$('auditStatus').textContent='Checking imported records…';try{const d=await api('/api/history/audit');$('auditStatus').textContent=d.total_player_games+' player-games checked. This audit checks completeness, not source authenticity.';$('auditRows').innerHTML=d.season_reports.map(r=>`<tr><td>${escapeHTML(r.season)}</td><td>${r.player_games}</td><td>${r.unique_players}</td><td>${r.weeks.length}</td><td>${r.missing_opponents} (${r.missing_opponent_pct}%)</td></tr>`).join('')||'<tr><td colspan="5">No imported records yet.</td></tr>'}catch(e){$('auditStatus').textContent=e.message}finally{b.disabled=false}};
+$('runDiagnostics').onclick=async()=>{const btn=$('runDiagnostics');btn.disabled=true;$('diagnosticStatus').textContent='Checking source connection…';try{const d=await api('/api/history/diagnostics?season='+encodeURIComponent($('diagnosticSeason').value));$('diagnosticStatus').textContent=`DNS: ${d.dns} · HTTP: ${d.http} · ${d.advice}`;}catch(e){$('diagnosticStatus').textContent='Diagnostic failed: '+e.message}finally{btn.disabled=false}};
+$('syncHistory').onclick=async()=>{const a=Number($('syncStart').value),b=Number($('syncEnd').value);if(!Number.isInteger(a)||!Number.isInteger(b)||a<1999||b>new Date().getFullYear()||a>b||b-a>25){$('syncStatus').textContent='Choose a valid season range (up to 26 seasons).';return}const btn=$('syncHistory');btn.disabled=true;$('syncStatus').textContent='Downloading and validating seasons… This can take several minutes.';try{const d=await api('/api/history/sync?'+new URLSearchParams({start:a,end:b}),{method:'POST',body:''});$('syncStatus').textContent=`Sync complete: ${d.metadata.history_rows.toLocaleString()} player-games across ${d.metadata.seasons.length} seasons.`;await summary()}catch(e){$('syncStatus').textContent='Sync failed: '+e.message}finally{btn.disabled=false}};
+$('runValidation').onclick=async()=>{const b=$('runValidation');b.disabled=true;$('validationStatus').textContent='Evaluating historical weeks…';try{const d=await api('/api/validation/compare?scoring='+encodeURIComponent($('validationScoring').value));$('evalCount').textContent=d.baseline.n;$('baseMAE').textContent=d.baseline.mae??'—';$('matchMAE').textContent=d.matchup_adjusted.mae??'—';$('improveMAE').textContent=d.mae_improvement??'—';$('validationStatus').textContent=d.baseline.n?`${d.defense_adjusted_games} forecasts used a non-neutral opponent adjustment.`:'Not enough historical player-games to evaluate.';$('validationRows').innerHTML=Object.entries(d.by_position).map(([p,v])=>`<tr><td>${p}</td><td>${v.baseline.n}</td><td>${v.baseline.mae}</td><td>${v.matchup_adjusted.mae}</td></tr>`).join('')}catch(e){$('validationStatus').textContent=e.message}finally{b.disabled=false}};
+$('template').onclick=()=>{const csv='player_id,player_name,position,recent_team,opponent_team,season,week,fantasy_points_ppr,receptions,receiving_targets,rushing_attempts\nexample1,Example Player,WR,NYG,DAL,2025,1,15.2,6,9,0\n';const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='rosterhelix-history-template.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};const themeSelect=$('themeSelect');let storedTheme='blue';try{storedTheme=localStorage.getItem('rosterhelix-theme')||'blue'}catch(e){}if(!['blue','gold'].includes(storedTheme))storedTheme='blue';document.documentElement.dataset.theme=storedTheme;themeSelect.value=storedTheme;themeSelect.onchange=()=>{document.documentElement.dataset.theme=themeSelect.value;try{localStorage.setItem('rosterhelix-theme',themeSelect.value)}catch(e){};const frame=$('advancedFrame');if(frame?.contentWindow)frame.contentWindow.postMessage({type:'rosterhelix-theme',theme:themeSelect.value},location.origin)};summary();
+
+let comparisonPlayers=[];
+async function loadComparison(){
+ const status=$('compareStatus');status.textContent='Loading player history…';
+ try{
+  const q=new URLSearchParams({window:$('compareWindow').value});
+  if($('compareSeason').value)q.set('season',$('compareSeason').value);
+  const data=await api('/api/history/player-averages?'+q);
+  comparisonPlayers=data.players;
+  $('comparePlayers').innerHTML=comparisonPlayers.map(p=>`<option value="${escapeHTML(p.name)}">${escapeHTML(p.team)} · ${escapeHTML(p.position)}</option>`).join('');
+  status.textContent=`${comparisonPlayers.length} players available. Recent averages use up to ${$('compareWindow').value} recorded games; missing games are not assumed to be zero.`;
+ }catch(e){status.textContent=e.message;comparisonPlayers=[];}
+}
+function lookupComparison(name){
+ const matches=comparisonPlayers.filter(p=>p.name.toLowerCase()===name.trim().toLowerCase());
+ if(matches.length!==1)throw Error(matches.length?'Multiple players have that name; choose a different player':'Player not found: '+name);
+ return matches[0];
+}
+function showStartSit(){
+ try{
+  const a=lookupComparison($('compareA').value),b=lookupComparison($('compareB').value);
+  const diff=a.recent_average-b.recent_average;
+  const lead=diff===0?'Tie in recent PPR average':`${diff>0?a.name:b.name} averaged ${Math.abs(diff).toFixed(2)} more PPR points per game`;
+  $('sitResult').textContent=`${lead}. ${a.name}: ${a.recent_average} PPG (${a.sample} games); ${b.name}: ${b.recent_average} PPG (${b.sample} games). Historical comparison only — check injuries, opponents, and current roles before starting either player.`;
+ }catch(e){$('sitResult').textContent=e.message}
+}
+function showTrade(){
+ try{
+  function side(id){
+   const names=$(id).value.split(',').map(x=>x.trim()).filter(Boolean);
+   if(!names.length||names.length>3)throw Error('Enter 1–3 players on each side.');
+   const players=names.map(lookupComparison);
+   if(new Set(players.map(x=>x.id)).size!==players.length)throw Error('Duplicate player on a side.');
+   return {players,total:players.reduce((sum,p)=>sum+p.recent_average,0)};
+  }
+  const a=side('tradeA'),b=side('tradeB');
+  if(a.players.some(p=>b.players.some(q=>p.id===q.id)))throw Error('A player cannot appear on both sides.');
+  const delta=a.total-b.total;
+  $('tradeResult').textContent=`Side A: ${a.total.toFixed(2)} recent PPR PPG; Side B: ${b.total.toFixed(2)}. ${Math.abs(delta)<0.01?'Equal historical totals':`Side ${delta>0?'A':'B'} is higher by ${Math.abs(delta).toFixed(2)} PPG`}. Not a trade recommendation: lineup slots and replacement value are not modeled.`;
+ }catch(e){$('tradeResult').textContent=e.message}
+}
+$('loadCompare').onclick=loadComparison;
+$('runSit').onclick=showStartSit;
+$('runTrade').onclick=showTrade;
+$('compareWindow').onchange=loadComparison;
+$('compareSeason').onchange=loadComparison;
+
+for(let w=1;w<=18;w++)$('decisionWeek').add(new Option('Week '+w,w));
+$('decisionWeek').value='18';
+$('runDecision').onclick=async()=>{
+ const status=$('decisionStatus');
+ status.textContent='Calculating from imported historical games…';
+ $('decisionRows').replaceChildren();
+ try{
+  const q=new URLSearchParams({season:$('compareSeason').value||'2024',week:$('decisionWeek').value,window:$('compareWindow').value,opponent:$('decisionOpponent').value.trim().toUpperCase()});
+  const d=await api('/api/decision-estimates?'+q);
+  status.textContent=d.players.length?`${d.players.length} historical player estimates. Experimental, not calibrated. Opponent sample must be at least 8 player-games for adjustment.`:'No earlier games for that season and week. Import historical data or choose a later week.';
+  for(const p of d.players.slice(0,100)){
+   const tr=document.createElement('tr');
+   for(const v of [p.name,p.position,p.estimate.toFixed(2),p.recent_ppg.toFixed(2),`${p.targets_pg??'—'} / ${p.carries_pg??'—'}`,`${p.recent_games} recent · ${p.opponent_sample} vs opp`]){
+    const td=document.createElement('td');td.textContent=v;tr.appendChild(td);
+   }
+   $('decisionRows').appendChild(tr);
+  }
+ }catch(e){status.textContent=e.message}
+};
+
+$('runDecisionBacktest').onclick=async()=>{
+ const btn=$('runDecisionBacktest');btn.disabled=true;
+ $('backtestStatus').textContent='Evaluating historical games; larger imports may take a moment…';
+ try{
+  const q=new URLSearchParams({window:$('backtestWindow').value,min_prior:$('backtestPrior').value});
+  if($('backtestSeason').value)q.set('season',$('backtestSeason').value);
+  const d=await api('/api/decision-backtest?'+q);
+  $('btCount').textContent=d.baseline.n;
+  $('btBaseline').textContent=d.baseline.mae??'—';
+  $('btModel').textContent=d.decision_engine.mae??'—';
+  $('btGain').textContent=d.mae_improvement===null?'—':`${d.mae_improvement>0?'+':''}${d.mae_improvement}`;
+  $('backtestStatus').textContent=d.baseline.n?`${d.matchup_adjusted_samples} of ${d.baseline.n} player-games received a non-neutral matchup adjustment. Baseline and model evaluated on identical games.`:'Not enough eligible historical player-games. Import multiple weeks and try again.';
+  $('backtestRows').replaceChildren();
+  for(const [pos,v] of Object.entries(d.by_position)){
+   const tr=document.createElement('tr');
+   for(const val of [pos,v.baseline.n,v.baseline.mae??'—',v.decision_engine.mae??'—']){
+    const td=document.createElement('td');td.textContent=val;tr.appendChild(td);
+   }
+   $('backtestRows').appendChild(tr);
+  }
+ }catch(e){$('backtestStatus').textContent=e.message}
+ finally{btn.disabled=false}
+};
+
+$('runOptimization').onclick=async()=>{
+ const btn=$('runOptimization');btn.disabled=true;
+ $('optStatus').textContent='Comparing strategies against earlier-week game history…';
+ $('optRows').replaceChildren();
+ try{
+  const q=new URLSearchParams({window:$('optWindow').value,min_prior:$('optPrior').value});
+  if($('optSeason').value)q.set('season',$('optSeason').value);
+  const d=await api('/api/model-optimization?'+q);
+  $('optStatus').textContent=d.samples?`${d.samples} eligible player-games; ${d.matchup_adjusted_samples} had an opponent adjustment. Lowest error is exploratory, not a production recommendation.`:'Not enough prior-week game history. Import multiple weeks and try again.';
+  for(const v of d.variants){
+   const tr=document.createElement('tr');
+   for(const val of [v.id.replaceAll('_',' '),(v.recent_weight*100)+'%',(v.matchup_strength*100)+'%',v.n,v.mae??'—',v.rmse??'—']){
+    const td=document.createElement('td');td.textContent=String(val);tr.appendChild(td);
+   }
+   if(d.exploratory_best===v.id)tr.style.fontWeight='700';
+   $('optRows').appendChild(tr);
+  }
+ }catch(e){$('optStatus').textContent=e.message}
+ finally{btn.disabled=false}
+};
+
+let heldoutReport=null;
+const holdSelects=['holdTrain','holdStart','holdEnd'];
+async function setupHeldoutYears(){
+ try{
+  const d=await api('/api/history/summary');
+  const years=(d.seasons||[]).map(Number).filter(Number.isFinite).sort((a,b)=>a-b);
+  for(const id of holdSelects){const el=$(id);el.replaceChildren();for(const year of years)el.add(new Option(year,year));}
+  if(years.length>=2){$('holdTrain').value=years[years.length-2];$('holdStart').value=years[years.length-1];$('holdEnd').value=years[years.length-1];}
+ }catch(e){$('heldoutStatus').textContent='Could not read imported seasons: '+e.message;}
+}
+$('runHeldout').onclick=async()=>{
+ const status=$('heldoutStatus');status.textContent='Evaluating held-out seasons…';$('exportHeldout').disabled=true;heldoutReport=null;
+ try{
+  const q=new URLSearchParams({train_end:$('holdTrain').value,test_start:$('holdStart').value,test_end:$('holdEnd').value,window:$('holdWindow').value,min_prior:'3'});
+  if(!q.get('train_end')||!q.get('test_start')||!q.get('test_end'))throw Error('Import at least two seasons first.');
+  const d=await api('/api/heldout-validation?'+q);heldoutReport=d;
+  $('heldoutChoice').textContent=d.selected_strategy||'Insufficient data';$('heldoutCount').textContent=d.test_samples;
+  $('heldoutMAE').textContent=d.test_mae??'—';$('heldoutGain').textContent=d.heldout_mae_improvement??'—';
+  $('heldoutPositions').replaceChildren();
+  for(const p of d.positions){const tr=document.createElement('tr');for(const val of [p.position,p.selected?.n??'—',p.selected?.mae??'—',p.baseline?.mae??'—',p.mae_improvement??'—']){const td=document.createElement('td');td.textContent=val;tr.appendChild(td)}$('heldoutPositions').appendChild(tr)}
+  status.textContent=d.warnings.length?d.warnings.join(' '):'Held-out evaluation complete. Results are retrospective and not guaranteed future accuracy.';
+  $('exportHeldout').disabled=false;
+ }catch(e){status.textContent=e.message;}
+};
+$('exportHeldout').onclick=()=>{
+ if(!heldoutReport)return;
+ const blob=new Blob([JSON.stringify(heldoutReport,null,2)],{type:'application/json'});
+ const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='rosterhelix-heldout-validation.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+};
+setupHeldoutYears();
+
+// Consolidated decision-center navigation; retain existing API-powered analysis.
+(()=>{
+ const root=document.getElementById('advanced');
+ if(!root)return;
+ const cards=[...root.querySelectorAll(':scope > .card')];
+ const groups={sit:[0],projection:[1],trade:[2]};
+ const switcher=root.querySelector('.decision-switch');
+ if(!switcher||cards.length<3)return;
+ function choose(name){
+  cards.forEach((card,i)=>{card.hidden=!groups[name].includes(i);card.style.display=groups[name].includes(i)?'':'none'});
+  switcher.querySelectorAll('button').forEach(b=>{const on=b.dataset.decision===name;b.classList.toggle('active',on);b.setAttribute('aria-pressed',String(on))});
+ }
+ switcher.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>choose(b.dataset.decision)));
+ choose('sit');
+})();
+</script></body></html>
